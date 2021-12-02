@@ -1,4 +1,5 @@
 # Day 2: Dive! - Part 1
+# https://adventofcode.com/2020/day/2
 
 # import input file into an array
 with open("day2_input.txt", 'r') as f:

@@ -1,4 +1,5 @@
 # Day 1: Sonar Sweep - Part 2
+# https://adventofcode.com/2020/day/1
 
 # import input file as depths in an array
 with open("day1_input.txt", 'r') as f:
