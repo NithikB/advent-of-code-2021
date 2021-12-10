@@ -1,109 +1,67 @@
-# Day 4 - Hydrothermal Venture - Part 1
-# https://adventofcode.com/2021/day/4
+# Day 5 - Hydrothermal Venture - Part 1
+# https://adventofcode.com/2021/day/5
 
 from collections import defaultdict
 
 
-# import input file into array of nums and array of boards
-def new_board(lines, i):
-    board = []
-    for x in range(i, i + 5):
-        board.append(lines[x].strip().split())
-    return board
+# import input file into array of lines
+lineSeg = []
+with open("day5_input.txt", 'r') as f:
+    lines = f.read().splitlines()
+
+    for line in lines:
+        coord1, coord2 = line.split(' -> ')
+        x1, y1 = coord1.split(',')
+        x2, y2 = coord2.split(',')
+        lineSeg.append([int(x1), int(y1), int(x2), int(y2)])
+
+grid = [[0 for x in range(1000)] for y in range(1000)]
+
+for line in lineSeg:
+    x1, y1, x2, y2 = line
+    if x1 == x2:  # vertical line
+        for y in range(min(y1, y2), max(y1, y2) + 1):
+            grid[y][x1] += 1
+
+    elif y1 == y2:  # horizontal line
+        for x in range(min(x1, x2), max(x1, x2) + 1):
+            grid[y1][x] += 1
 
 
-with open("day4_input.txt", 'r') as f:
-    lines = f.readlines()
+count = 0
+for x in range(1000):
+    for y in range(1000):
+        if grid[x][y] > 1:
+            count += 1
 
-    nums = lines[0].strip().split(",")
-
-    boards = []
-    for i in range(1, len(lines), 6):
-        boards.append(new_board(lines, i+1))
-
-
-def total(board):
-    total = 0
-    for row in board:
-        for num in row:
-            if num != "#":
-                total += int(num)
-    return total
+print("Overlap:", count)
 
 
-def check(board):
-    for row in board:
-        count = 0
-        for num in row:
-            if num == "#":
-                count += 1
-        if count == 5:
-            return total(board)
+# Day 5 - Hydrothermal Venture - Part 2
 
-    for c in range(5):
-        count = 0
-        for r in range(5):
-            if board[r][c] == "#":
-                count += 1
-        if count == 5:
-            return total(board)
+grid = [[0 for x in range(1000)] for y in range(1000)]
 
-    return False
+for line in lineSeg:
+    x1, y1, x2, y2 = line
+    if x1 == x2:  # vertical line
+        for y in range(min(y1, y2), max(y1, y2) + 1):
+            grid[y][x1] += 1
+    elif y1 == y2:  # horizontal line
+        for x in range(min(x1, x2), max(x1, x2) + 1):
+            grid[y1][x] += 1
+    else:  # diagonal line
+        xstep = 1 if x1 < x2 else -1
+        ystep = 1 if y1 < y2 else -1
+        grid[y1][x1] += 1
+        while x1 != x2 or y1 != y2:
+            x1 += xstep
+            y1 += ystep
+            grid[y1][x1] += 1
 
+count = 0
+for x in range(1000):
+    for y in range(1000):
+        if grid[x][y] > 1:
+            count += 1
 
-def mark(board, num):
-    for r in range(5):
-        for c in range(5):
-            if board[r][c] == num:
-                board[r][c] = "#"
-                break
-
-
-ans = -1
-for num in nums:
-    for board in boards:
-        mark(board, num)
-
-    for board in boards:
-        if check(board):
-            print(board)
-            ans = check(board) * int(num)
-            break
-    if ans != -1:
-        break
-
-
-print("Score:", ans)
-
-# Day 4 - Hydrothermal Venture- Part 2
-
-with open("day4_input.txt", 'r') as f:
-    lines = f.readlines()
-
-    nums = lines[0].strip().split(",")
-
-    boards = []
-    for i in range(1, len(lines), 6):
-        boards.append(new_board(lines, i+1))
-
-i = 0
-while len(boards) > 1:
-    num = nums[i]
-
-    for board in boards:
-        mark(board, num)
-
-    nextBoards = []
-    for board in boards:
-        if not check(board):
-            nextBoards.append(board)
-    boards = nextBoards
-    i += 1
-
-board = boards[0]
-while not check(board):
-    num = nums[i]
-    mark(board, num)
-    i += 1
-
-print("Score:", check(board) * int(nums[i-1]))
+print("Overlap:", count)
