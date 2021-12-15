@@ -71,12 +71,20 @@ for i in instructions:
                     grid[r][c] = 0
         n = loc
 
+for r in range(n):
+    for c in range(m):
+        if grid[r][c] == 1:
+            print("█", end="")
+        else:
+            print(" ", end="")
+    print()
+
 with open("day13_out.txt", 'w') as f:
     grid = grid[:n][:c]
     for r in range(len(grid)):
         for c in range(len(grid[0])):
             if grid[r][c] == 1:
-                grid[r][c] = "#"
+                grid[r][c] = "█"
             else:
-                grid[r][c] = "."
+                grid[r][c] = " "
     f.write("\n".join(str(row) for row in grid))
