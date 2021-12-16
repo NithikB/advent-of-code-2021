@@ -10,7 +10,7 @@ with open("day15_input.txt", 'r') as f:
 
 # modified djikstra's (djikstra finds shortest path)
 # djikstra usually maintains a distance (default inf) for each node, a queue/heap for nodes, and a set of visited nodes
-# djikstra start at the source and adds all unvisited neighbors to the queue, updating the distance to each neighbor 
+# djikstra start at the source and adds all unvisited neighbors to the queue, updating the distance to each neighbor
 # djikstras removes the min distance node from the queue and repeats the above steps until all nodes are visited
 
 # we can modify and apply djikstras here until we visit the target, which happens when it is the min distance/risk node
@@ -20,7 +20,7 @@ heap = [(0, 0, 0)]
 v = set()
 v.add((0, 0))
 dir = [[0, 1], [1, 0], [0, -1], [-1, 0]]
-while heap:
+while True:
     risk, r, c = heapq.heappop(heap)
     if r == len(grid) - 1 and c == len(grid[0]) - 1:
         print("Risk:", risk)
@@ -50,7 +50,7 @@ heap = [(0, 0, 0)]
 v = set()
 v.add((0, 0))
 dir = [[0, 1], [1, 0], [0, -1], [-1, 0]]
-while heap:
+while True:
     risk, r, c = heapq.heappop(heap)
     if r == len(grid) - 1 and c == len(grid[0]) - 1:
         print("Risk:", risk)
